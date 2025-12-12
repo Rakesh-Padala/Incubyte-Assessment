@@ -1,0 +1,34 @@
+# Node modules
+backend/node_modules/
+frontend/node_modules/
+
+# Environment variables
+backend/.env
+frontend/.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+backend/dist/
+frontend/dist/
+
+# Temporary files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+
+# Local files
+.env.local
+.env.development.local
+.env.production.local
+
+# OS files
+*.tmp
+*.swp
