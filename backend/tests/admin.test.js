@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import app from "../src/app.js";
 import connectDB from "../src/config/db.js";
 import User from "../src/models/user.model.js";
-
+jest.setTimeout(15000);
 beforeAll(async () => {
   await connectDB();
 });

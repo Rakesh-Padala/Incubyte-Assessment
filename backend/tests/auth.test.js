@@ -2,8 +2,12 @@ import request from "supertest";
 import mongoose from "mongoose";
 import app from "../src/app.js";
 import connectDB from "../src/config/db.js";
+import User from "../src/models/user.model.js";
+
 import dotenv from "dotenv";
 dotenv.config();
+
+jest.setTimeout(15000);
 
 beforeAll(async () => {
   await connectDB();
@@ -14,8 +18,9 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  await mongoose.connection.db.dropDatabase();
+  await User.deleteMany({});
 });
+
 
 
 describe("Auth API", () => {
