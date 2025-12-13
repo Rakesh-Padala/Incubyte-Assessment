@@ -7,8 +7,7 @@ describe("Health Check API", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual({
-      success: true,
-      message: "Server is healthy",
+      status: "OK",
     });
   });
 });
