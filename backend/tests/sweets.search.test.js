@@ -5,7 +5,6 @@ import app from "../src/app.js";
 describe("Sweet API - Search Sweets", () => {
   let token;
 
-  // 🔹 Run once: connect DB & register admin
   beforeAll(async () => {
     await mongoose.connect(process.env.MONGO_URI);
     await mongoose.connection.db.dropDatabase();
@@ -16,10 +15,7 @@ describe("Sweet API - Search Sweets", () => {
       password: "password123",
       role: "admin",
     });
-  });
 
-  // 🔥 IMPORTANT FIX: fresh token + fresh data for EACH test
-  beforeEach(async () => {
     const loginRes = await request(app).post("/api/auth/login").send({
       email: "searchadmin@test.com",
       password: "password123",
@@ -27,10 +23,6 @@ describe("Sweet API - Search Sweets", () => {
 
     token = loginRes.body.token;
 
-    // Clear sweets before each test
-    await mongoose.connection.db.collection("sweets").deleteMany({});
-
-    // Seed sweets
     await request(app)
       .post("/api/sweets")
       .set("Authorization", `Bearer ${token}`)

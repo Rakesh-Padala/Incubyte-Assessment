@@ -59,39 +59,47 @@ export const searchSweets = async (req, res) => {
   try {
     const { name, category, minPrice, maxPrice } = req.query;
 
-    const query = {};
+    const pipeline = [];
 
     if (name) {
-      query.name = new RegExp(name, "i");
+      pipeline.push({
+        $match: { name: { $regex: name, $options: "i" } },
+      });
     }
 
     if (category) {
-      query.category = new RegExp(category, "i");
+      pipeline.push({
+        $match: { category: { $regex: category, $options: "i" } },
+      });
     }
 
     if (minPrice !== undefined || maxPrice !== undefined) {
-      query.price = {};
-      if (minPrice !== undefined) {
-        query.price.$gte = Number(minPrice);
-      }
-      if (maxPrice !== undefined) {
-        query.price.$lte = Number(maxPrice);
-      }
+      const priceMatch = {};
+      if (minPrice !== undefined) priceMatch.$gte = Number(minPrice);
+      if (maxPrice !== undefined) priceMatch.$lte = Number(maxPrice);
+
+      pipeline.push({
+        $match: { price: priceMatch },
+      });
     }
 
-    const sweets = await Sweet.find(query);
+    const sweets =
+      pipeline.length > 0
+        ? await Sweet.aggregate(pipeline)
+        : await Sweet.find({});
 
     return res.status(200).json({
       success: true,
       sweets,
     });
-  } catch (err) {
+  } catch (error) {
     return res.status(500).json({
       success: false,
       message: "Server error",
     });
   }
 };
+
 
 
 
