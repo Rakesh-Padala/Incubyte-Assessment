@@ -1,9 +1,21 @@
-import api from "./axios";
+import axios from "axios";
+export const createSweet = async (sweetData) => {
+  const res = await axios.post("/sweets", sweetData);
+  return res.data;
+};
 
-export const getSweets = () => api.get("/sweets");
+export const getSweets = async () => {
+  const res = await axios.get("/sweets");
+  return res.data;
+};
 
-export const searchSweets = (params) =>
-  api.get("/sweets/search", { params });
-
-export const purchaseSweet = (id, quantity) =>
-  api.post(`/sweets/${id}/purchase`, { quantity });
+export const searchSweets = async (params) => {
+  const res = await axios.get("/sweets/search", { params });
+  return res.data;
+};
+export const purchaseSweet = async (sweetId, quantity) => {
+  const res = await axios.post(`/sweets/${sweetId}/purchase`, {
+    quantity,
+  });
+  return res.data;
+};
